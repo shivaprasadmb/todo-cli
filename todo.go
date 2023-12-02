@@ -10,17 +10,17 @@ import (
 	"github.com/alexeyco/simpletable"
 )
 
-type item struct {
+type Item struct {
 	Task        string
 	Done        bool
 	CreatedAt   time.Time
 	CompletedAt time.Time
 }
 
-type Todos []item
+type Todos []Item
 
 func (t *Todos) Add(task string) {
-	todo := item{
+	todo := Item{
 		Task:        task,
 		Done:        false,
 		CreatedAt:   time.Now(),
@@ -76,9 +76,9 @@ func (t *Todos) Store(filename string) error {
 }
 
 func (t *Todos) Print() {
-	// for i, item := range *t {
+	// for i, Item := range *t {
 	// 	i++
-	// 	fmt.Printf("%d - %s\n", i, item.Task)
+	// 	fmt.Printf("%d - %s\n", i, Item.Task)
 	// }
 	table := simpletable.New()
 	table.Header = &simpletable.Header{
@@ -92,20 +92,20 @@ func (t *Todos) Print() {
 	}
 
 	var cells [][]*simpletable.Cell
-	for idx, item := range *t {
+	for idx, Item := range *t {
 		idx++
-		task := blue(item.Task)
+		task := blue(Item.Task)
 		done := blue("no")
-		if item.Done {
-			task = green(fmt.Sprintf("\u2705 %s", item.Task))
+		if Item.Done {
+			task = green(fmt.Sprintf("\u2705 %s", Item.Task))
 			done = green("yes")
 		}
 		cells = append(cells, *&[]*simpletable.Cell{
 			{Text: fmt.Sprintf("%d", idx)},
 			{Text: task},
 			{Text: done},
-			{Text: item.CreatedAt.Format(time.RFC822)},
-			{Text: item.CompletedAt.Format(time.RFC822)},
+			{Text: Item.CreatedAt.Format(time.RFC822)},
+			{Text: Item.CompletedAt.Format(time.RFC822)},
 		})
 	}
 
@@ -130,8 +130,8 @@ func (t *Todos) Print() {
 
 func (t *Todos) CountPending() int {
 	total := 0
-	for _, item := range *t {
-		if !item.Done {
+	for _, Item := range *t {
+		if !Item.Done {
 			total++
 		}
 	}
