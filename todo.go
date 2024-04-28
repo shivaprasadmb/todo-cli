@@ -100,7 +100,7 @@ func (t *Todos) Print() {
 			task = green(fmt.Sprintf("\u2705 %s", Item.Task))
 			done = green("yes")
 		}
-		cells = append(cells, *&[]*simpletable.Cell{
+		cells = append(cells, *&[]*simpletable.Cell{ //nolint:staticcheck
 			{Text: fmt.Sprintf("%d", idx)},
 			{Text: task},
 			{Text: done},
